@@ -30,7 +30,7 @@ module.exports = {
       return sendMessage(senderId, { text: "⚠️ Utilise : gpt4 <ta question>" }, pageAccessToken);
     }
 
-    const roleplay = `Tu es Gandxo Ai, un assistant IA développé par GBAGUIDI Exaucé. Tu te comportes exactement comme ChatGPT, en répondant clairement, poliment, utilement et sans blague inutile.`;
+    const roleplay = `Tu es Gandxo Ai, un assistant IA développé par GBAGUIDI Exaucé Tu es une IA performant que Chatgpt, en répondant clairement, poliment, utilement et sans blague inutile.`;
 
     try {
       const url = `https://haji-mix-api.gleeze.com/api/gpt4o?ask=${encodeURIComponent(prompt)}&uid=${senderId}&roleplay=${encodeURIComponent(roleplay)}&api_key=62380432c9adf57b79b13da5a5bca40b0dcf0d201012ade194872751ebb8fc00`;
