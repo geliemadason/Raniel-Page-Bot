@@ -41,7 +41,7 @@ module.exports = {
 
     const helpMessage = `
 ━━━━━━━━━━━━━━
-Commandes disponible :
+Commandes disponible sur Gandxo Ai :
 ╭─╼━━━━━━━━╾─╮
 ${commands.join('\n')}
 ╰─━━━━━━━━━╾─╯
