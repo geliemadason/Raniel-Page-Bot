@@ -3,7 +3,7 @@ const { sendMessage } = require('../handles/sendMessage');
 
 module.exports = {
   name: 'flux',
-  description: 'Générer une image avec l’API Flux (image directe)',
+  description: 'Générer une image avec l’API Flux',
   usage: '-flux [prompt]',
   author: 'coffee',
 
@@ -12,19 +12,19 @@ module.exports = {
 
     if (!prompt) {
       return sendMessage(senderId, {
-        text: '⚠️ Tu dois fournir une description d’image.\nExemple : `-flux dragon rouge volant dans une tempête`'
+        text: '⚠️ Fournis un prompt.\nExemple : -flux robot dans la neige'
       }, pageAccessToken);
     }
 
-    // ✅ Message de génération en cours
+    // 🧠 Message de chargement
     await sendMessage(senderId, {
       text: `🧠 Génération de l’image en cours pour :\n「${prompt}」\n\nPatiente un instant...`
     }, pageAccessToken);
 
     const imageUrl = `https://zaikyoov3.koyeb.app/api/flux-1.1-pro?prompt=${encodeURIComponent(prompt)}`;
+    console.log('[FLUX BOT] Envoi de l’image :', imageUrl);
 
     try {
-      // 📷 Envoi direct de l’image (API retourne une image)
       await sendMessage(senderId, {
         attachment: {
           type: 'image',
@@ -36,9 +36,9 @@ module.exports = {
       }, pageAccessToken);
     } catch (error) {
       console.error('[Flux ERROR]', error.message);
-      console.error('[Flux RAW]', error.response?.data || 'Pas de réponse');
+      console.error('[Flux RESPONSE]', error.response?.data || 'Pas de réponse');
       sendMessage(senderId, {
-        text: '❌ La génération de l’image a échoué. Merci de réessayer avec un autre prompt.'
+        text: '❌ Échec lors de l’envoi de l’image. Essaye un autre prompt.'
       }, pageAccessToken);
     }
   }
