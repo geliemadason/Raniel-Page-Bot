@@ -3,8 +3,8 @@ const { sendMessage } = require('../handles/sendMessage');
 
 module.exports = {
   name: 'flux',
-  description: 'Generate an image using Flux Realism API.',
-  usage: '-flux [image prompt]',
+  description: 'Générer une image avec l’API Flux (image directe)',
+  usage: '-flux [prompt]',
   author: 'coffee',
 
   async execute(senderId, args, pageAccessToken) {
@@ -12,36 +12,33 @@ module.exports = {
 
     if (!prompt) {
       return sendMessage(senderId, {
-        text: '❗ Veuillez fournir une description pour générer l’image.\nExemple : -flux paysage futuriste dans l’espace'
+        text: '⚠️ Tu dois fournir une description d’image.\nExemple : `-flux dragon rouge volant dans une tempête`'
       }, pageAccessToken);
     }
 
-    const apiUrl = `https://zaikyoov3.koyeb.app/api/flux-1.1-pro?prompt=${encodeURIComponent(prompt)}`;
+    // ✅ Message de génération en cours
+    await sendMessage(senderId, {
+      text: `🧠 Génération de l’image en cours pour :\n「${prompt}」\n\nPatiente un instant...`
+    }, pageAccessToken);
+
+    const imageUrl = `https://zaikyoov3.koyeb.app/api/flux-1.1-pro?prompt=${encodeURIComponent(prompt)}`;
 
     try {
-      const { data } = await axios.get(apiUrl);
-
-      if (data?.status && data?.response) {
-        const imgUrl = data.response;
-
-        await sendMessage(senderId, {
-          attachment: {
-            type: 'image',
-            payload: {
-              url: imgUrl,
-              is_reusable: true
-            }
+      // 📷 Envoi direct de l’image (API retourne une image)
+      await sendMessage(senderId, {
+        attachment: {
+          type: 'image',
+          payload: {
+            url: imageUrl,
+            is_reusable: true
           }
-        }, pageAccessToken);
-      } else {
-        sendMessage(senderId, {
-          text: '❌ La génération de l’image a échoué. Merci de réessayer avec un autre prompt.'
-        }, pageAccessToken);
-      }
+        }
+      }, pageAccessToken);
     } catch (error) {
-      console.error('Erreur génération Flux :', error.message);
+      console.error('[Flux ERROR]', error.message);
+      console.error('[Flux RAW]', error.response?.data || 'Pas de réponse');
       sendMessage(senderId, {
-        text: '🚨 Une erreur s’est produite lors de la génération de l’image.'
+        text: '❌ La génération de l’image a échoué. Merci de réessayer avec un autre prompt.'
       }, pageAccessToken);
     }
   }
