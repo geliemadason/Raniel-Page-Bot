@@ -42,6 +42,7 @@ module.exports = {
     const helpMessage = `
 ━━━━━━━━━━━━━━
 Commandes disponible sur Gandxo Ai :
+-dalle
 ╭─╼━━━━━━━━╾─╮
 ${commands.join('\n')}
 ╰─━━━━━━━━━╾─╯
