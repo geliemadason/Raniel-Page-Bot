@@ -50,8 +50,8 @@ async function handleMessage(event, pageAccessToken) {
 
     if (commands.has(normalizedCommand)) {
       await commands.get(normalizedCommand).execute(senderId, args, pageAccessToken, event, sendMessage, imageCache);
-    } else if (commands.has('ai')) {
-      await commands.get('ai').execute(senderId, [messageText], pageAccessToken, event, sendMessage, imageCache);
+    } else if (commands.has('gpt4')) {
+      await commands.get('gpt4').execute(senderId, [messageText], pageAccessToken, event, sendMessage, imageCache);
     } else {
       await sendMessage(senderId, { text: 'Unknown command and AI fallback is unavailable.' }, pageAccessToken);
     }
